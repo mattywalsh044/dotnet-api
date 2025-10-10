@@ -20,4 +20,10 @@ public class PhotoController : ControllerBase
         var url = await _cloudinary.UploadImageAsync(file);
         return Ok(new { imageUrl = url });
     }
+
+    [HttpGet("ping")]
+    public IActionResult Ping()
+    {
+        return Ok("pong");
+    }
 }
