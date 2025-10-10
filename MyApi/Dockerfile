@@ -2,9 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /src
-COPY . .
+COPY ./MyApi ./MyApi
 
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish ./MyApi/MyApi.csproj -c Release -o /app
 
 # Use the ASP.NET runtime image to run the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
