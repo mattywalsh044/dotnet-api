@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -6,6 +6,21 @@ function App() {
   const [file, setFile] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // ✅ Load gallery on first render
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await axios.get("https://firstmatty-netapi.onrender.com/api/photos/all");
+        setGallery(res.data);
+        console.log("Loaded gallery:", res.data); // optional: for debugging
+      } catch (err) {
+        console.error("Failed to load gallery:", err);
+      }
+    };
+
+    fetchGallery();
+  }, []);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -20,13 +35,13 @@ function App() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://firstmatty-netapi.onrender.com/api/photos/upload", 
+        "https://firstmatty-netapi.onrender.com/api/photos/upload",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       const newImageUrl = res.data.imageUrl;
-      setGallery([newImageUrl, ...gallery]); // Add new image at the top
+      setGallery([newImageUrl, ...gallery]); // Add new image to gallery
       setFile(null);
     } catch (err) {
       alert("Upload failed");
