@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://walshwebsave.onrender.com")  // ✅ use your actual frontend URL here
+        policy.WithOrigins("https://dotnet-api-apza.onrender.com")  // ✅ use your actual frontend URL here
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
