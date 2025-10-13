@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
@@ -30,7 +35,6 @@ public class CloudinaryService
         return uploadResult.SecureUrl.ToString();
     }
 }
-using CloudinaryDotNet.Actions;
 
 public async Task<List<string>> ListImagesAsync()
 {
