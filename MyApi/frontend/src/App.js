@@ -6,14 +6,15 @@ function App() {
   const [file, setFile] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [folder, setFolder] = useState("default");
 
-  // ✅ Load gallery on first render
+
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         const res = await axios.get("https://firstmatty-netapi.onrender.com/api/photos/all");
         setGallery(res.data);
-        console.log("Loaded gallery:", res.data); // optional: for debugging
+        console.log("Loaded gallery:", res.data); 
       } catch (err) {
         console.error("Failed to load gallery:", err);
       }
@@ -35,7 +36,7 @@ function App() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://firstmatty-netapi.onrender.com/api/photos/upload",
+        `https://firstmatty-netapi.onrender.com/api/photos/upload?folder=${folder}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -56,11 +57,19 @@ function App() {
       <p className="subtitle">Simple, Secure Image Upload to the Cloud</p>
 
       <div className="upload-section">
+        <input
+    type="text"
+    placeholder="Enter folder name"
+    value={folder}
+    onChange={(e) => setFolder(e.target.value)}
+    className="folder-input"
+        />
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleUpload} disabled={!file || loading}>
           {loading ? "Uploading..." : "Upload"}
         </button>
       </div>
+
 
       {gallery.length > 0 && (
         <div className="gallery">

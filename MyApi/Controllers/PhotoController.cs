@@ -13,15 +13,16 @@ namespace MyApi.Controllers
             _cloudinary = cloudinary;
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> Upload(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded");
+    [HttpPost("upload")]
+    public async Task<IActionResult> Upload(IFormFile file, [FromQuery] string folder = "default")
+    {
+        if (file == null || file.Length == 0)
+          return BadRequest("No file uploaded");
 
-            var url = await _cloudinary.UploadImageAsync(file);
-            return Ok(new { imageUrl = url });
-        }
+        var url = await _cloudinary.UploadImageAsync(file, folder);
+        return Ok(new { imageUrl = url });
+    }
+
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllImages()

@@ -20,22 +20,6 @@ public class CloudinaryService
         _cloudinary = new Cloudinary(account);
     }
 
-    public async Task<string> UploadImageAsync(IFormFile file)
-    {
-        await using var stream = file.OpenReadStream();
-        var uploadParams = new ImageUploadParams
-        {
-            File = new FileDescription(file.FileName, stream),
-            UseFilename = true,
-            UniqueFilename = false,
-            Overwrite = false
-        };
-
-        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-        return uploadResult.SecureUrl.ToString();
-    }
-
-
     public async Task<List<string>> ListImagesAsync()
     {
         var searchResult = await _cloudinary.Search()
@@ -46,4 +30,19 @@ public class CloudinaryService
         var urls = searchResult.Resources.Select(r => r.Url).ToList();
         return urls;
     }
+    public async Task<string> UploadImageAsync(IFormFile file, string folder = "default")
+    {
+        await using var stream = file.OpenReadStream();
+        var uploadParams = new ImageUploadParams
+        {
+         File = new FileDescription(file.FileName, stream),
+         Folder = folder, // ✅ Upload into a folder
+         UseFilename = true,
+         UniqueFilename = false,
+          Overwrite = false
+        };
+
+        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+        return uploadResult.SecureUrl.ToString();
+}
 }
