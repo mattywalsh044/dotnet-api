@@ -19,6 +19,17 @@ builder.Services.AddScoped<CloudinaryService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://walshwebsave.onrender.com")  // ✅ use your actual frontend URL here
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure middleware
@@ -27,6 +38,8 @@ app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 
