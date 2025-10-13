@@ -34,15 +34,16 @@ public class CloudinaryService
         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
         return uploadResult.SecureUrl.ToString();
     }
-}
 
-public async Task<List<string>> ListImagesAsync()
-{
-    var searchResult = await _cloudinary.Search()
-        .Expression("resource_type:image")
-        .MaxResults(30)
-        .ExecuteAsync();
 
-    var urls = searchResult.Resources.Select(r => r.Url).ToList();
-    return urls;
+    public async Task<List<string>> ListImagesAsync()
+    {
+        var searchResult = await _cloudinary.Search()
+            .Expression("resource_type:image")
+            .MaxResults(30)
+            .ExecuteAsync();
+
+        var urls = searchResult.Resources.Select(r => r.Url).ToList();
+        return urls;
+    }
 }
