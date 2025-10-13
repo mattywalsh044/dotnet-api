@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./App.css"; // We'll style it next
+import "./App.css";
 
 function App() {
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -24,7 +24,10 @@ function App() {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      setImageUrl(res.data.imageUrl);
+
+      const newImageUrl = res.data.imageUrl;
+      setGallery([newImageUrl, ...gallery]); // Add new image at the top
+      setFile(null);
     } catch (err) {
       alert("Upload failed");
     } finally {
@@ -44,10 +47,16 @@ function App() {
         </button>
       </div>
 
-      {imageUrl && (
-        <div className="result">
-          <h2>Uploaded Image:</h2>
-          <img src={imageUrl} alt="Uploaded" />
+      {gallery.length > 0 && (
+        <div className="gallery">
+          <h2>Your Uploads</h2>
+          <div className="gallery-grid">
+            {gallery.map((url, index) => (
+              <div key={index} className="gallery-item">
+                <img src={url} alt={`Uploaded ${index}`} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

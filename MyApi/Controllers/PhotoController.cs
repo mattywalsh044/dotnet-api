@@ -27,3 +27,10 @@ public class PhotoController : ControllerBase
         return Ok("pong");
     }
 }
+
+[HttpGet("all")]
+public async Task<IActionResult> GetAllImages()
+{
+    var images = await _cloudinary.ListImagesAsync();
+    return Ok(images);
+}

@@ -30,3 +30,15 @@ public class CloudinaryService
         return uploadResult.SecureUrl.ToString();
     }
 }
+using CloudinaryDotNet.Actions;
+
+public async Task<List<string>> ListImagesAsync()
+{
+    var searchResult = await _cloudinary.Search()
+        .Expression("resource_type:image")
+        .MaxResults(30)
+        .ExecuteAsync();
+
+    var urls = searchResult.Resources.Select(r => r.Url).ToList();
+    return urls;
+}
