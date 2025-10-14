@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using MyApi.Models;
 
-public class AppDbContext : DbContext
+namespace MyApi.Data
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) { }
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options) { }
 
-    public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+    }
 }
