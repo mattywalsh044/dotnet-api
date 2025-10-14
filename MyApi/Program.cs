@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore; 
 using MyApi.Data;
+using MyApi.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
